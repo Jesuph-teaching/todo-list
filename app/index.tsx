@@ -5,7 +5,7 @@ import { Button, Text as TextPaper } from "react-native-paper";
 export default function Index() {
   const router = useRouter();
   const { user } = useUser();
-  if (user) return <Redirect href="/todo" />;
+  if (user) return <Redirect href="/application" />;
   return (
     <View
       style={{

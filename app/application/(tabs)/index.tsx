@@ -12,6 +12,7 @@ export default function TodoList() {
   });
   if (isFetching) return <Text>Loading...</Text>;
   if (isError) return <Text>Error {JSON.stringify(error)}</Text>;
+
   return (
     <View
       style={{
