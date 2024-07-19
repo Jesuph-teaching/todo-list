@@ -1,15 +1,28 @@
-import UserContext from "@/contexts/user";
+import { login } from "@/api/auth";
 import useUser from "@/hooks/useUser";
+import { useMutation } from "@tanstack/react-query";
 import { Redirect } from "expo-router";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 
 export default function Login() {
+  const { setUser, user, setToken } = useUser();
+
+  const LoginMutation = useMutation({
+    mutationFn: login,
+    mutationKey: ["login"],
+    onSuccess: (data) => {
+      setUser(data.user);
+      setToken(data.accessToken);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { setUser, user } = useUser();
   if (user) return <Redirect href="/" />;
   return (
     <View
@@ -50,15 +63,14 @@ export default function Login() {
       />
       <Button
         mode="contained"
+        disabled={LoginMutation.isPending}
         onPress={() => {
-          setUser({
-            email,
-            name: "John Doe",
-          });
+          LoginMutation.mutate({ email, password });
         }}
+        icon={LoginMutation.isPending ? "loading" : "login"}
         style={{ width: "100%" }}
       >
-        Login
+        {LoginMutation.isPending ? "Logging in" : "Login"}
       </Button>
     </View>
   );

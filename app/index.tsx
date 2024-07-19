@@ -1,8 +1,11 @@
-import { useRouter } from "expo-router";
+import useUser from "@/hooks/useUser";
+import { Redirect, useRouter } from "expo-router";
 import { Image, View } from "react-native";
 import { Button, Text as TextPaper } from "react-native-paper";
 export default function Index() {
   const router = useRouter();
+  const { user } = useUser();
+  if (user) return <Redirect href="/todo" />;
   return (
     <View
       style={{
