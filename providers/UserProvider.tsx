@@ -19,13 +19,18 @@ export default function UserProvider({
       setToken(token);
     });
   }
+  function LoadToken() {
+    AsyncStorage.getItem("token").then((token) => {
+      console.log("token loaded", token);
+      if (token) SetTokenApp(token);
+    });
+  }
   useEffect(() => {
+    LoadToken();
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
       if (nextAppState === "active") {
         // check if token exist
-        AsyncStorage.getItem("token").then((token) => {
-          if (token) SetTokenApp(token);
-        });
+        LoadToken();
       }
     };
     const sub = AppState.addEventListener("change", handleAppStateChange);
