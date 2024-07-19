@@ -1,5 +1,6 @@
 import { login } from "@/api/auth";
 import useUser from "@/hooks/useUser";
+import { Ionicons } from "@expo/vector-icons";
 import { useMutation } from "@tanstack/react-query";
 import { Redirect } from "expo-router";
 import React, { useState } from "react";
@@ -55,7 +56,7 @@ export default function Login() {
           width: "100%",
         }}
         right={
-          <TextInput.Icon
+          <Ionicons
             icon={showPassword ? "eye-off" : "eye"}
             onPress={() => setShowPassword(!showPassword)}
           />
